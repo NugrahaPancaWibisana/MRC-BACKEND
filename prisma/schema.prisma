@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  RFID  String? @unique
+  name  String? @unique
+  role  String  @default("user")
+  token String?
+
+  @@map("users")
+}
+
+model Barang {
+  id         Int     @id @default(autoincrement())
+  namaBarang String  @unique
+  tipeBarang String?
+  stokBarang Int
+
+  @@map("barang")
+}
+
+model Peminjaman {
+  id            Int     @id @default(autoincrement())
+  RFID          String  @unique
+  namaBarang    String
+  jumlahBarang  Int
+  tipeBarang    String?
+  keterangan    String?
+  lamaPinjam    Int
+  tanggalPinjam String
+
+  @@map("peminjaman")
+}
+
+model Riwayat {
+  id            Int     @id @default(autoincrement())
+  RFID          String  @unique
+  namaBarang    String  
+  jumlahBarang  Int
+  tipeBarang    String?
+  keterangan    String?
+  lamaPinjam    Int
+  tanggalPinjam String
+  status        String  @default("SEDANG DI PINJAM")
+
+  @@map("riwayat")
+}
